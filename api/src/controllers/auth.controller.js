@@ -1,5 +1,7 @@
 const User = require('../models/user.mongo');
 const bcryptjs = require('bcryptjs');
+const errorHandler = require('../utils/error');
+const jwt = require('jsonwebtoken');
 
 const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -11,7 +13,29 @@ const signup = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-  
 };
 
-module.exports = signup;
+const signin = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    const validUser = await User.findOne({ email });
+    const validPassword = bcryptjs.compareSync(password, validUser.password);
+    if (!validUser || !validPassword) {
+      return next(errorHandler(401, 'Invalid email or password'));
+    }
+    const token = jwt.sign( 
+      { id: validUser._id }, 
+      process.env.JWT_SECRET
+    );
+    const { password: userPassword, ...userWithoutPassword } = validUser._doc;
+    res.cookie('access_token', token, { httpOnly: true, expires : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) })
+    res.status(200).json(userWithoutPassword);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  signup,
+  signin
+};
