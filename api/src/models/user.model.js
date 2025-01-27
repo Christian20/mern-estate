@@ -1,4 +1,4 @@
-const users = require('./user.mongo');
+const User = require('./user.mongo');
 
 
 //TODO: Implement the functions below
