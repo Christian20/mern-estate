@@ -3,20 +3,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon api/index.js",
-    "start": "node api/index.js",
+    "dev-api": "npm run dev --prefix api",
+    "dev-client": "npm run dev --prefix client",
+    "dev":"npm run dev-api & npm run dev-client",
+    "start-api": "npm run start --prefix api",
+    "start": "npm run start-api",
+    "install-api": "npm install --prefix api",
+    "install-client": "npm install --prefix client",
+    "install-all": "npm run install-api && npm run install-client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "mongoose": "^8.9.5"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.9"
-  }
+  "description": ""
 }
