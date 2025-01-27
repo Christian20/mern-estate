@@ -1,15 +1,21 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const http = require('http');
+
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_CONNECTION_STRING).then(() => {
-  console.log('Connected to MongoDB');
-}).catch((err) => {
-  console.log('Failed to connect to MongoDB', err);
-});
+const app = require('./app');
 
-const app = express();
+const { mongoConnect } = require('./services/mongo');
 
-app.listen(3000, () => {
-  console.log(`Server is running on port ${3000}`);
-});
+const PORT = process.env.PORT || 3000;
+
+const server = http.createServer(app);
+
+async function startServer() {
+  await mongoConnect();
+  
+  server.listen(PORT, () => {
+    console.log(`Server is running on port ${3000}...`);
+  });
+}
+
+startServer();
