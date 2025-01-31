@@ -8,8 +8,6 @@ const test = (req, res) => {
 
 const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.id) {
-    console.log('req.user', req.user);
-    console.log('req.params.id', req.params.id);
     return next(errorHandler(401, 'You can only update your own account!'));
   }
 
