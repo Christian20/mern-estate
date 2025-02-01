@@ -9,7 +9,7 @@ const signup = async (req, res, next) => {
   const newUser = new User({ username, email, password: hashedPassword });
   try {
     await newUser.save();
-    res.status(201).json({ message: 'User created successfully' });
+    res.status(201).json({ message: 'User created successfully!' });
   } catch (error) {
     next(error);
   }
@@ -20,11 +20,11 @@ const signin = async (req, res, next) => {
   try {
     const validUser = await User.findOne({ email });
     if (!validUser) {
-      return next(errorHandler(401, 'Invalid email or password'));
+      return next(errorHandler(401, 'Invalid email or password!'));
     }
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) {
-      return next(errorHandler(401, 'Invalid email or password'));
+      return next(errorHandler(401, 'Invalid email or password!'));
     }
     const token = jwt.sign( 
       { id: validUser._id }, 
