@@ -1,4 +1,4 @@
-const User = require('../models/user.mongo');
+const User = require('../models/user.model');
 const bcryptjs = require('bcryptjs');
 const errorHandler = require('../utils/error');
 const jwt = require('jsonwebtoken');

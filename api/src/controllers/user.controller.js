@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const User = require('../models/user.mongo');
+const User = require('../models/user.model');
 const errorHandler = require('../utils/error');
 
 const test = (req, res) => {
