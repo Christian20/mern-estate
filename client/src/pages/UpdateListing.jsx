@@ -206,7 +206,7 @@ export default function UpdateListing() {
                 id='sale' 
                 className='w-5'
                 onChange={handleChange}
-                checked={formData.type == 'sale'}
+                checked={formData.type === 'sale'}
               />
               <span>Sell</span>
             </div>
@@ -216,7 +216,7 @@ export default function UpdateListing() {
                 id='rent' 
                 className='w-5' 
                 onChange={handleChange}
-                checked={formData.type == 'rent'}
+                checked={formData.type === 'rent'}
               />
               <span>Rent</span>
             </div>
@@ -226,7 +226,7 @@ export default function UpdateListing() {
                 id='parking' 
                 className='w-5' 
                 onChange={handleChange}
-                value={formData.parking}
+                checked={formData.parking}
               />
               <span>Parking Spot</span>
             </div>
@@ -236,7 +236,7 @@ export default function UpdateListing() {
                 id='furnished' 
                 className='w-5' 
                 onChange={handleChange}
-                value={formData.furnished}
+                checked={formData.furnished}
               />
               <span>Furnished</span>
             </div>
@@ -246,7 +246,7 @@ export default function UpdateListing() {
                 id='offer' 
                 className='w-5' 
                 onChange={handleChange}
-                value={formData.offer}
+                checked={formData.offer}
               />
               <span>Offer</span>
             </div>
