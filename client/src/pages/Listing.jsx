@@ -13,7 +13,7 @@ export default function Listing() {
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [contact , setContact] = useState(false);
+  const [contact, setContact] = useState(false);
   const [error, setError] = useState(false);
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
@@ -45,38 +45,36 @@ export default function Listing() {
       {loading && (<p className='text-center my-7 text-2xl'>Loading...</p>)}
       {error && (<p className='text-center my-7 text-2xl'>Something went wrong!</p>)}
       {listing && !loading && !error && (
-        <div>
+        <div className='max-w-6xl mx-auto px-3 my-2'>
           <Swiper navigation={true}>
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
-                <div
-                  className='h-[550px]'
-                  style={{background: `url(${url}) center no-repeat`, backgroundSize: 'cover'}}
-                >         
-                </div> 
+                <div className='relative h-[550px]' style={{ background: `url(${url}) center no-repeat`, backgroundSize: 'cover' }}>
+                  <div className='absolute top-7 right-7 z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100'>
+                    <FaShare
+                      className='text-slate-500 cursor-pointer'
+                      onClick={() => {
+                        navigator.clipboard.writeText(window.location.href);
+                        setCopied(true);
+                        setTimeout(() => {
+                          setCopied(false);
+                        }, 2000);
+                      }}
+                    />
+                  </div>
+                  {copied &&
+                    <p className='absolute top-20 right-7 z-10 rounded-md bg-slate-100 p-2'>Link copied!</p>
+                  }
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className='fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100'>
-            <FaShare 
-              className='text-slate-500 cursor-pointer' 
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-                setCopied(true);
-                setTimeout(() => {
-                  setCopied(false);
-                }, 2000);           
-              }}
-            />
-          </div>
-          {copied &&
-            <p className='fixed top-[23%] right-[3%] z-10 rounded-md bg-slate-100 p-2'>Link copied!</p>
-          }
+
           <div className='flex flex-col max-w-4xl mx-auto p-3 gap-4'>
             <p className='text-2xl font-semibold'>
-              {listing.name} - ${' '} 
-              {listing.offer ? 
-                listing.discountPrice.toLocaleString('en-US') : 
+              {listing.name} - ${' '}
+              {listing.offer ?
+                listing.discountPrice.toLocaleString('en-US') :
                 listing.regularPrice.toLocaleString('en-US')}
               {listing.type === 'rent' && ' / month'}
             </p>
@@ -118,8 +116,8 @@ export default function Listing() {
             {currentUser && listing.userRef !== currentUser._id && !contact && (
               <button onClick={() => setContact(true)} className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-90 p-3'>Contact Landlord</button>
             )}
-            {contact && <Contact listing={ listing } />}
-          </div>    
+            {contact && <Contact listing={listing} />}
+          </div>
         </div>
       )}
     </main>

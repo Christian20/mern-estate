@@ -10,7 +10,7 @@ export default function Search() {
     parking: false,
     furnished: false,
     offer: false,
-    sort: 'created_at',
+    sort: 'createdAt',
     order: 'desc',
   });
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ export default function Search() {
         parking: parkingFromUrl === 'true' ? true : false,
         furnished: furnishedFromUrl === 'true' ? true : false,
         offer: offerFromUrl === 'true' ? true : false,
-        sort: sortFromUrl || 'created_at',
+        sort: sortFromUrl || 'createdAt',
         order: orderFromUrl || 'desc',
       });
     }
@@ -68,7 +68,7 @@ export default function Search() {
 
 
   const handleChange = (e) => {
-    const { id, value, type, checked } = e.target;
+    const { id, value, checked } = e.target;
 
     if(id === 'all' || id === 'rent' || id === 'sale') {
       setSidebarData((prevSidebarData) => ({
@@ -92,7 +92,7 @@ export default function Search() {
     }
 
     if (id === 'sort_order') {
-      const sort = value.split('_')[0] || 'created_at';
+      const sort = value.split('_')[0] || 'createdAt';
       const order = value.split('_')[1] || 'desc';
 
       setSidebarData((prevSidebarData) => ({
@@ -121,12 +121,14 @@ export default function Search() {
   const onShowMoreClick = async () => {
     const numberOfListings = listings.length;
     const startIndex = numberOfListings;
+    const limit = 9;
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set('startIndex', startIndex);
+    urlParams.set('limit', limit);
     const searchQuery = urlParams.toString();
     const response = await fetch(`/api/listing/get?${searchQuery}`);
     const data = await response.json();
-    if (data.length < 9) {
+    if (data.length < limit) {
       setShowMore(false);
     }
     setListings((previousListings) => [...previousListings, ...data]);
@@ -217,7 +219,7 @@ export default function Search() {
             <label className='font-semibold'>Sort:</label>
             <select 
               onChange={handleChange}
-              defaultValue={'created_at_desc'}
+              value={`${sidebardata.sort}_${sidebardata.order}`}
               id='sort_order' 
               className='border rounded-lg p-3'
             >
