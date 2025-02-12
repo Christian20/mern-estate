@@ -4,7 +4,7 @@ import defaultListingPhoto from '../assets/default-listing-photo.jpeg';
 
 export default function ListingItem( { listing }) {
   return (
-    <div className='bg-gray shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px] flex flex-col'>
+    <div className='bg-gray-200 shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px] flex flex-col'>
       <Link to={`/listing/${listing._id}`} className='flex flex-col h-full'>
         <img 
           src={listing.imageUrls[0] || defaultListingPhoto} 
