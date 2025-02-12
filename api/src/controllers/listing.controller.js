@@ -67,8 +67,7 @@ const getListings = async (req, res, next) => {
   try {
     const limit = parseInt(req.query.limit) || 9;
     const startIndex = parseInt(req.query.startIndex) || 0;
-    console.log('limit', limit);
-    console.log('startIndex', startIndex);
+
     let offer = req.query.offer;
 
     // If the 'offer' option is not selected, we want to return all listings
@@ -98,7 +97,7 @@ const getListings = async (req, res, next) => {
 
     const sort = req.query.sort || 'createdAt';
 
-    const order = req.query.order || 'desc';
+    const order = req.query.order === 'asc' ? 1 : -1;
 
     const listings = await Listing.find({
       name: { $regex: searchTerm, $options: 'i' }, // '$options: i' = search case-insensitive
@@ -107,11 +106,10 @@ const getListings = async (req, res, next) => {
       parking,
       type,
     })
-      .sort({ [sort]: order })
+      .sort({ [sort]: order, _id: order })
       .limit(limit)
       .skip(startIndex);
 
-    console.log('listings', listings);
     res.status(200).json(listings);
   } catch (error) {
     next(error);
