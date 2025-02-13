@@ -6,8 +6,6 @@ const userRouter = require('./routes/user.route');
 const authRouter = require('./routes/auth.route');
 const listingRouter = require('./routes/listing.route');
 
-const __dirname = path.resolve();
-
 app.use(express.json());
 
 app.use(cookieParser());
