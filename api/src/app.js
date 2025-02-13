@@ -1,11 +1,12 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-
+const path = require('path');
 const app = express();
-
 const userRouter = require('./routes/user.route');
 const authRouter = require('./routes/auth.route');
 const listingRouter = require('./routes/listing.route');
+
+const __dirname = path.resolve();
 
 app.use(express.json());
 
@@ -14,6 +15,12 @@ app.use(cookieParser());
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/listing', listingRouter);
+
+app.use(express.static(path.join(__dirname, 'client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {

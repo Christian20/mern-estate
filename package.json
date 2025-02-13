@@ -11,7 +11,9 @@
     "install-api": "npm install --prefix api",
     "install-client": "npm install --prefix client",
     "install-all": "npm run install-api && npm run install-client",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-client": "npm run build --prefix client",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run install-api && npm run install-client && npm run build-client"
   },
   "keywords": [],
   "author": "",
