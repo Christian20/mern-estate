@@ -10,45 +10,36 @@ export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   SwiperCore.use([Navigation]);
 
   console.log(saleListings);
 
   useEffect(() => {
-    const fetchOfferListings = async() => {
+    setLoading(true);
+    const fetchListings = async () => {
       try {
-        const response = await fetch('/api/listing/get?offer=true&limit=4');
-        const data = await response.json();
-        setOfferListings(data);
-        fetchRentListings();
+        const [offerResponse, rentResponse, saleResponse] = await Promise.all([
+          fetch('/api/listing/get?offer=true&limit=4'),
+          fetch('/api/listing/get?type=rent&limit=4'),
+          fetch('/api/listing/get?type=sale&limit=4'),
+        ]);
+  
+        const offerData = await offerResponse.json();
+        const rentData = await rentResponse.json();
+        const saleData = await saleResponse.json();
+  
+        setOfferListings(offerData);
+        setRentListings(rentData);
+        setSaleListings(saleData);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false); // Set loading to false once fetch is complete
       }
     };
-
-    const fetchRentListings = async() => {
-      try {
-        const response = await fetch('/api/listing/get?type=rent&limit=4');
-        const data = await response.json();
-        setRentListings(data);
-        fetchSaleListings();
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fetchSaleListings = async() => {
-      try {
-        const response = await fetch('/api/listing/get?type=sale&limit=4');
-        const data = await response.json();
-        setSaleListings(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchOfferListings();
+    fetchListings();
   }, []);
 
   return (
@@ -70,6 +61,12 @@ export default function Home() {
           Let's get started...
         </Link>
       </div>
+
+      {loading && (
+        <div className="text-center py-10">
+          <p>Loading listings...</p>
+        </div>
+      )}
 
       { /* swiper */}
       <div className='max-w-6xl mx-auto px-3'>
