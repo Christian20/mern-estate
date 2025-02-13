@@ -58,7 +58,7 @@ export default function ListingItem({ listing }) {
                 <FaBath className='text-m' />
                 {listing.bathrooms > 1 ? `${listing.bathrooms} Bathrooms` : `${listing.bathrooms} Bathroom`}
               </div>
-              <div className={`font-semibold text-xs flex items-center gap-1 ${listing.parking ? 'text-green-700' : ''}`}>               
+              <div className={`font-semibold text-xs flex items-center gap-1 ${listing.furnished ? 'text-green-700' : ''}`}>               
                 <FaChair className='text-m' />
                 {listing.furnished ? 'Furnished' : 'Unfurnished'}           
               </div>
